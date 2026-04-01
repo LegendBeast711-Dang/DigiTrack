@@ -1,0 +1,5 @@
+C:\Users\dml-admin\Downloads\Claude\DigiTrack\obj\Debug\net6.0-windows\DigiTrack.csproj.AssemblyReference.cache
+C:\Users\dml-admin\Downloads\Claude\DigiTrack\obj\Debug\net6.0-windows\DigiTrack.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dml-admin\Downloads\Claude\DigiTrack\obj\Debug\net6.0-windows\DigiTrack.AssemblyInfoInputs.cache
+C:\Users\dml-admin\Downloads\Claude\DigiTrack\obj\Debug\net6.0-windows\DigiTrack.AssemblyInfo.cs
+C:\Users\dml-admin\Downloads\Claude\DigiTrack\obj\Debug\net6.0-windows\DigiTrack.csproj.CoreCompileInputs.cache
