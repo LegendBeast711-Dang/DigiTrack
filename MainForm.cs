@@ -61,7 +61,8 @@ public class MainForm : Form
         WireTimers();
         SetupTrayIcon();
         ApplyTheme();
-        ShowNotification("Welcome to DigiTrack! Press Start Recording to begin.", 4000);
+        ShowNotification("Welcome to DigiTrack! Recording started automatically.", 4000);
+        StartRecording();
     }
 
     // ── UI Construction ───────────────────────────────────────────────────────
@@ -426,9 +427,8 @@ public class MainForm : Form
 
     private void ToggleRecording()
     {
-        if (_isRecording)
-            StopRecording();
-        else
+        // Recording runs 24/7 — toggle is disabled
+        if (!_isRecording)
             StartRecording();
     }
 
@@ -441,18 +441,21 @@ public class MainForm : Form
             Title = $"Session {DateTime.Now:yyyy-MM-dd HH:mm}"
         };
 
-        _btnRecord.Text = "⏹  Stop Recording";
+        _btnRecord.Text = "● Recording (24/7)";
         _btnRecord.BackColor = RecordActiveColor;
+        _btnRecord.Enabled = false;
         _lblStatus.Text = "● Recording";
         _lblStatus.ForeColor = Color.FromArgb(255, 80, 80);
 
+        _autoSaveTimer.Interval = 60_000; // auto-save every 1 minute
+        _autoSaveTimer.Start();
         _statsTimer.Start();
         _wpmSnapshotTimer.Start();
 
         UpdateTrayIcon();
         _rtbText.Focus();
         ShowNotification("Recording started. Start typing!", 2500);
-        SetStatus("Recording active");
+        SetStatus("Recording active — auto-saves every minute");
     }
 
     private void StopRecording()
@@ -477,7 +480,8 @@ public class MainForm : Form
         ShowNotification(
             $"Recording stopped. Words: {_currentSession.WordCount:N0} | " +
             $"WPM: {_currentSession.AverageWPM:F1}", 3500);
-        SetStatus("Recording stopped. Use Save Session to store.");
+        SetStatus("Recording stopped. Auto-saving...");
+        SaveSession();
     }
 
     // ── Stats ─────────────────────────────────────────────────────────────────
@@ -554,6 +558,57 @@ public class MainForm : Form
         var encNote = encrypt ? " (encrypted)" : "";
         ShowNotification($"Session saved{encNote}.", 2500);
         SetStatus($"Saved: {_currentSession.Title}");
+
+        PushToGitHub();
+    }
+
+    private void PushToGitHub()
+    {
+        Task.Run(() =>
+        {
+            try
+            {
+                var repoPath = AppDomain.CurrentDomain.BaseDirectory;
+                // Walk up to find the git repo root
+                var dir = new DirectoryInfo(repoPath);
+                while (dir != null && !Directory.Exists(Path.Combine(dir.FullName, ".git")))
+                    dir = dir.Parent;
+                if (dir == null) return;
+
+                var appDataSessions = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "DigiTrack");
+                var repoSessions = Path.Combine(dir.FullName, "sessions");
+
+                if (Directory.Exists(appDataSessions))
+                {
+                    foreach (var file in Directory.GetFiles(appDataSessions, "*", SearchOption.AllDirectories))
+                    {
+                        var relative = Path.GetRelativePath(appDataSessions, file);
+                        var dest = Path.Combine(repoSessions, relative);
+                        Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                        File.Copy(file, dest, overwrite: true);
+                    }
+                }
+
+                void Run(string args) {
+                    var p = new System.Diagnostics.Process();
+                    p.StartInfo = new System.Diagnostics.ProcessStartInfo("git", args)
+                    {
+                        WorkingDirectory = dir.FullName,
+                        CreateNoWindow = true,
+                        UseShellExecute = false
+                    };
+                    p.Start();
+                    p.WaitForExit();
+                }
+
+                Run("add .");
+                Run($"commit -m \"Auto-save {DateTime.Now:yyyy-MM-dd HH:mm}\"");
+                Run("push");
+            }
+            catch { /* silent fail */ }
+        });
     }
 
     private void AutoSave()
