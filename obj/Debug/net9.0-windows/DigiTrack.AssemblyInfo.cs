@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DigiTrack")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1b691582f4428186ae67ff469a2254fae52d69bd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc7e2b1f03e922b1ab8ec54f460c73646c7a6cac")]
 [assembly: System.Reflection.AssemblyProductAttribute("DigiTrack")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DigiTrack")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

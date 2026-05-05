@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dml-admin\\Downloads\\Claude\\DigiTrack\\DigiTrack.csproj": {}
+    "C:\\Users\\dml-admin\\Downloads\\claude\\DigiTrack\\DigiTrack.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dml-admin\\Downloads\\Claude\\DigiTrack\\DigiTrack.csproj": {
+    "C:\\Users\\dml-admin\\Downloads\\claude\\DigiTrack\\DigiTrack.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dml-admin\\Downloads\\Claude\\DigiTrack\\DigiTrack.csproj",
+        "projectUniqueName": "C:\\Users\\dml-admin\\Downloads\\claude\\DigiTrack\\DigiTrack.csproj",
         "projectName": "DigiTrack",
-        "projectPath": "C:\\Users\\dml-admin\\Downloads\\Claude\\DigiTrack\\DigiTrack.csproj",
+        "projectPath": "C:\\Users\\dml-admin\\Downloads\\claude\\DigiTrack\\DigiTrack.csproj",
         "packagesPath": "C:\\Users\\dml-admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dml-admin\\Downloads\\Claude\\DigiTrack\\obj\\",
+        "outputPath": "C:\\Users\\dml-admin\\Downloads\\claude\\DigiTrack\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
